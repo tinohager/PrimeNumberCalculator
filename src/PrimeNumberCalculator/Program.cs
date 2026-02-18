@@ -12,40 +12,48 @@ var syncLock = new object();
 var stopwatch = new Stopwatch();
 stopwatch.Start();
 
-BigInteger first512BitNumber = BigInteger.One << 511;
+BigInteger end = (BigInteger.One << 512) - 1;
 
-Parallel.For(0, threads, workerId =>
+static IEnumerable<BigInteger> GetOddNumbers(BigInteger max)
 {
-    BigInteger number = 2 + workerId + first512BitNumber;
-
-    while (true)
+    BigInteger first512BitNumber = BigInteger.One << 511;
+    if (first512BitNumber.IsEven)
     {
+        first512BitNumber++;
+    }
+
+    for (BigInteger i = first512BitNumber; i <= max; i += 2)
+    {
+        yield return i;
+    }
+}
+
+GetOddNumbers(end)
+    .AsParallel()
+    .WithDegreeOfParallelism(threads)
+    .ForAll(number => {
         if (!TrialDivisionFilter.PassesTrialDivision(number))
         {
-            number += threads;
-            continue;
+            return;
         }
 
         bool prime = MillerRabin.IsProbablyPrime(number, 40);
-
-        if (prime)
+        if (!prime)
         {
-            var result = Interlocked.Increment(ref primeCount);
-            if (result % stepSize == 0)
-            {
-                lock (syncLock)
-                {
-                    stopwatch.Stop();
-                    Console.Write($"{stopwatch.Elapsed.TotalMilliseconds:0}ms");
-                    stopwatch.Restart();
-                }
-
-                //int bitCount = (int)Math.Floor(BigInteger.Log(number, 2)) + 1;
-                int bitCount = NumberHelper.GetBitLength(number);
-                Console.WriteLine($" - Calculate {stepSize} prime numbers with {bitCount} bits");
-            }
+            return;
         }
 
-        number += threads;
-    }
-});
+        var result = Interlocked.Increment(ref primeCount);
+        if (result % stepSize == 0)
+        {
+            lock (syncLock)
+            {
+                stopwatch.Stop();
+                Console.Write($"{stopwatch.Elapsed.TotalMilliseconds:0}ms");
+                stopwatch.Restart();
+            }
+
+            int bitCount = NumberHelper.GetBitLength(number);
+            Console.WriteLine($" - Calculate {stepSize} prime numbers with {bitCount} bits");
+        }
+    });
