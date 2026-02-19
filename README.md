@@ -6,8 +6,8 @@ This tool provides a simple and fast way to test CPU performance with large prim
 
 ## 🔹 Why participate?
 
-We are collecting performance data from a variety of CPUs!
-With just 100 runs, you can help build a comprehensive benchmark dataset.
+We are collecting performance data from a variety of CPUs!<br>
+With just 100 runs, you can help build a comprehensive benchmark dataset.<br>
 Share your results as an Issue in this repository – every contribution counts!
 
 ## 🚀 Features
