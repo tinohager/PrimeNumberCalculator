@@ -2,6 +2,9 @@
 using System.Diagnostics;
 using System.Numerics;
 
+double totalElapsedMilliseconds = 0;
+int measurementCount = 0;
+
 int threads = Environment.ProcessorCount;
 var primeCount = 0;
 var stepSize = 1000;
@@ -46,14 +49,22 @@ GetOddNumbers(end)
         var result = Interlocked.Increment(ref primeCount);
         if (result % stepSize == 0)
         {
+            int bitCount = NumberHelper.GetBitLength(number);
+
             lock (syncLock)
             {
                 stopwatch.Stop();
-                Console.Write($"{stopwatch.Elapsed.TotalMilliseconds:0}ms");
+
+                totalElapsedMilliseconds += stopwatch.Elapsed.TotalMilliseconds;
+                measurementCount++;
+                var average = measurementCount == 0 ? 0 : totalElapsedMilliseconds / measurementCount;
+
+                Console.Write($"Calculate {stepSize} prime numbers with {bitCount} bits, ");
+                Console.WriteLine($"require {stopwatch.Elapsed.TotalMilliseconds:0}ms, average:{average:0}ms [{measurementCount}]");
                 stopwatch.Restart();
             }
 
-            int bitCount = NumberHelper.GetBitLength(number);
-            Console.WriteLine($" - Calculate {stepSize} prime numbers with {bitCount} bits");
+
+            
         }
     });
