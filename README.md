@@ -18,6 +18,10 @@ Share your results as an Issue in this repository – every contribution counts!
 * Optimized for simplicity and performance
 * Ideal for CPU performance comparisons
 
+## Download
+
+- Download and extract the Test Tool ([download](https://github.com/tinohager/PrimeNumberCalculator/releases/latest/download/PrimeNumberCalculator-release.zip))
+
 ## CPU Benchmark Results
 
 | CPU                                 | Release date      | 1000 calculations |
