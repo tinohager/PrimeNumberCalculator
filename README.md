@@ -18,11 +18,14 @@ Share your results as an Issue in this repository – every contribution counts!
 * Optimized for simplicity and performance
 * Ideal for CPU performance comparisons
 
-## Download
+## ⬇️ Download
 
-- Download and extract the Test Tool ([download](https://github.com/tinohager/PrimeNumberCalculator/releases/latest/download/PrimeNumberCalculator-release.zip))
+Download the latest release of the PrimeNumberCalculator and extract the archive:<br>
+[PrimeNumberCalculator.zip (Latest Release)](https://github.com/tinohager/PrimeNumberCalculator/releases/latest/download/PrimeNumberCalculator-release.zip)
 
-## CPU Benchmark Results
+## 🖥️ CPU Benchmark Results
+
+The following section shows the CPU benchmark results, including the time required to compute 1000 prime numbers with a length of 512 bits.
 
 | CPU                                 | Release date      | 1000 calculations |
 | :---------------------------------- | :---------------- | ----------------: |
